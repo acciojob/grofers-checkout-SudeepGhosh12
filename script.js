@@ -1,39 +1,28 @@
 const getSumBtn = document.createElement("button");
-  getSumBtn.append("Get Total Price");
-  document.body.appendChild(getSumBtn);
+getSumBtn.append("Get Total Price");
+document.body.appendChild(getSumBtn);
 
-  const getSum = () => {
-    // Remove existing total row if it exists
-    const existingTotal = document.querySelector(".total-row");
-    if (existingTotal) {
-      existingTotal.remove();
-    }
+const getSum = () => {
+  const priceElements = document.querySelectorAll(".price");
+  let total = 0;
 
-    const priceElements = document.querySelectorAll(".prices");
-    let total = 0;
+  priceElements.forEach((el) => {
+    total += parseFloat(el.textContent);
+  });
 
-    // Start from index 1 to skip the header
-    for (let i = 1; i < priceElements.length; i++) {
-      const price = parseFloat(priceElements[i].textContent);
-      if (!isNaN(price)) {
-        total += price;
-      }
-    }
+  // Create a new row and cell for total
+  const table = document.querySelector("table");
+  const newRow = document.createElement("tr");
+  const totalCell = document.createElement("td");
 
-    // Create new row for total
-    const totalRow = document.createElement("tr");
-    totalRow.className = "total-row";
+  totalCell.colSpan = 2;
+  totalCell.id = "ans"; // ✅ Set ID for test to detect
+  totalCell.textContent = total;
 
-    const totalCell = document.createElement("td");
-    totalCell.colSpan = 2;
-    totalCell.textContent = `Total Price: $${total.toFixed(2)}`;
+  newRow.appendChild(totalCell);
+  table.appendChild(newRow);
+};
 
-    totalRow.appendChild(totalCell);
-
-    const table = document.getElementById("grocery-table");
-    table.appendChild(totalRow);
-  };
-
-  getSumBtn.addEventListener("click", getSum);
+getSumBtn.addEventListener("click", getSum);
 
 
